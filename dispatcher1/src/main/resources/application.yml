@@ -1,0 +1,13 @@
+server:
+  port: 8084
+
+bot:
+  name: "tatammii_bot"
+  token: "7155991615:AAEhlGMfHyrz-IXQ4cZygBIZYJVxkuyNO3g"
+
+spring:
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: anton
+    password: 1029384756
