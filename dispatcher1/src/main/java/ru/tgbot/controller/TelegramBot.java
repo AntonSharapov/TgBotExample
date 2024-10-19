@@ -1,6 +1,7 @@
 package ru.tgbot.controller;
 
 import javax.annotation.PostConstruct;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
@@ -19,7 +20,7 @@ public class TelegramBot extends TelegramLongPollingBot {
     @Value("${bot.token}")
     private String botToken;
 
-    UpdateController updateController;
+    private final UpdateController updateController;
 
     public TelegramBot(UpdateController updateController){
         this.updateController = updateController;

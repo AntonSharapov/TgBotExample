@@ -1,26 +1,24 @@
 package ru.tgbot.controller;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Controller;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import ru.tgbot.service.UpdateProducer;
 import ru.tgbot.utils.MessageUtils;
-import ru.tgbot.RabbitQueue;
+import ru.tgbot.service.RabbitQueue;
 
-@Component
+@Controller
+@RequiredArgsConstructor
 @Slf4j
 public class UpdateController {
 
     private TelegramBot telegramBot;
-    private MessageUtils messageUtils;
-    private UpdateProducer updateProducer;
+    private final MessageUtils messageUtils;
+    private final UpdateProducer updateProducer;
 
 
-    public UpdateController(MessageUtils messageUtils, UpdateProducer updateProducer) {
-        this.messageUtils = messageUtils;
-        this.updateProducer = updateProducer;
-    }
 
     public void registerBot(TelegramBot telegramBot){
         this.telegramBot = telegramBot;
@@ -31,7 +29,7 @@ public class UpdateController {
             log.error("Received update is null");
         }
         
-        if (update.getMessage() != null) {
+        if (update.hasMessage()) {
             distributeMessageByType(update);
         } else {
             log.error("Received unsupported message type");
@@ -40,11 +38,11 @@ public class UpdateController {
 
     private void distributeMessageByType(Update update) {
         var message = update.getMessage();
-        if (message.getText() != null) {
+        if (message.hasText()) {
             processTextMessage(update);
-        } else if (message.getDocument() != null) {
+        } else if (message.hasDocument()) {
             processDocMessage(update);
-        } else if (message.getPhoto() != null) {
+        } else if (message.hasPhoto()) {
             processPhotoMessage(update);
         } else {
             setUnsupportedMessage(update);
@@ -64,7 +62,7 @@ public class UpdateController {
         setView(message);
     }
 
-    private void setView(SendMessage message) {
+    public void setView(SendMessage message) {
         telegramBot.sendAnswerMessage(message);
     }
 

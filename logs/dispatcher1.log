@@ -1,0 +1,16 @@
+2024-10-07 12:52:09 DEBUG UpdateProducerImpl:17 - Hello from chat
+2024-10-07 12:56:37 DEBUG UpdateProducerImpl:17 - Hi
+2024-10-07 20:08:01 DEBUG UpdateProducerImpl:17 - Привет в обед
+2024-10-07 21:04:19 DEBUG UpdateProducerImpl:17 - /start
+2024-10-07 21:04:21 DEBUG UpdateProducerImpl:17 - /help
+2024-10-07 21:04:37 DEBUG UpdateProducerImpl:17 - /registration
+2024-10-07 21:04:40 DEBUG UpdateProducerImpl:17 - /cancel
+2024-10-07 21:04:48 DEBUG UpdateProducerImpl:17 - /ef
+2024-10-08 01:18:06 DEBUG UpdateProducerImpl:17 - 
+2024-10-08 01:18:49 DEBUG UpdateProducerImpl:17 - 
+2024-10-08 01:19:04 DEBUG UpdateProducerImpl:17 - 
+2024-10-08 01:21:10 DEBUG UpdateProducerImpl:17 - 
+2024-10-08 01:27:25 DEBUG UpdateProducerImpl:17 - 
+2024-10-08 01:27:25 DEBUG UpdateProducerImpl:17 - 
+2024-10-08 01:27:38 DEBUG UpdateProducerImpl:17 - /cancel
+2024-10-08 01:27:45 DEBUG UpdateProducerImpl:17 - 

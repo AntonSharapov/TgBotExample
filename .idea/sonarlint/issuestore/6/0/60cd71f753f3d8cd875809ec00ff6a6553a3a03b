@@ -1,0 +1,31 @@
+
+p
+java:S5411V"(Use a primitive boolean expression here.(ÚêÌŞûÿÿÿÿ8êá²È¦2J$5dd8d49e-b7c5-4c0d-8fa1-8ce8047619d7
+~
+java:S1854&";Remove this useless assignment to local variable "message".(¹’¾ı8şá²È¦2J$ecbb1d5d-c772-4ee9-b72a-08011588d126
+o
+java:S1481&",Remove this unused "message" local variable.(¹’¾ı8ÿá²È¦2J$b7dfd103-12ad-4eac-bb9b-c6c62fd1263c
+u
+java:S11351"2Complete the task associated to this TODO comment.(×óúõ8€â²È¦2J$8d5d5d1f-7c30-44a4-a3ad-45a8a1f82c20
+
+java:S1854D"7Remove this useless assignment to local variable "doc".(üÉú—şÿÿÿÿ8â²È¦2J$945c932d-7a5a-46c3-8d68-e576aa0c3dc3
+p
+java:S1481D"(Remove this unused "doc" local variable.(üÉú—şÿÿÿÿ8â²È¦2J$55c87ce4-8e5d-41b7-8f64-4e617da8d4ed
+z
+java:S1135F"2Complete the task associated to this TODO comment.(®ŠÜ‰øÿÿÿÿ8‚â²È¦2J$f8a5f6e8-53b7-4d58-a8f7-655af8bf66c9
+~	java:S125O"<This block of commented-out lines of code should be removed.(›šáØ8‚â²È¦2J$cc4bcf33-aafe-4d5f-b1ab-50ca0e7a96c0
+u
+java:S1135O"2Complete the task associated to this TODO comment.(›šáØ8‚â²È¦2J$aed74fc8-e97e-42c7-a728-da2590c91438
+ƒ	java:S125l"<This block of commented-out lines of code should be removed.(¼ĞÎƒøÿÿÿÿ8ƒâ²È¦2J$6cdea552-0913-4255-858f-7e7cb07e14d3
+z
+java:S1135l"2Complete the task associated to this TODO comment.(¼ĞÎƒøÿÿÿÿ8ƒâ²È¦2J$fc9b2b2c-9a5c-4820-a329-9920d4a6729b
+‹
+java:S1854{"CRemove this useless assignment to local variable "serviceCommands".(Ëöòçÿÿÿÿÿ8…â²È¦2J$327de5b2-f2dc-4f36-baf7-31df8cc41874
+q
+java:S1172z".Remove this unused method parameter "appUser".(ŞÛªÃ8…â²È¦2J$54824f8e-f715-4659-889f-6f2c2bcf4467
+|
+java:S1481{"4Remove this unused "serviceCommands" local variable.(Ëöòçÿÿÿÿÿ8…â²È¦2J$75836550-5f88-484f-80aa-24d2f3abe9e5
+z
+java:S1135}"2Complete the task associated to this TODO comment.(úôÀÑıÿÿÿÿ8…â²È¦2J$893e744d-8566-4e96-bdf5-34494655c28c
+v
+java:S1135"2Complete the task associated to this TODO comment.(³éÀ¡8‡â²È¦2J$18e09653-99d0-4a11-8f66-753b667d3e9a

@@ -1,0 +1,7 @@
+
+
+java:S1201"UEither override Object.equals(Object), or rename the method to prevent any confusion.(σÿ€8Ò…Θ¦2J$8019c1b1-5d42-4141-b3bc-8d422425f5ef
+~
+java:S1128"6Remove this unused import 'lombok.AllArgsConstructor'.(΄Ύφωÿÿÿÿ8Σ…Θ¦2J$6d9c0d78-491f-4d5e-91ff-4a02ae05dd2f
+x
+java:S1128"5Remove this unused import 'lombok.NoArgsConstructor'.(Έ¨›8Σ…Θ¦2J$75f53255-c7f2-42c7-b3ab-d1a82b707b60

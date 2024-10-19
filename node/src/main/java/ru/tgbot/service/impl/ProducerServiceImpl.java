@@ -1,6 +1,6 @@
 package ru.tgbot.service.impl;
 
-import static ru.tgbot.RabbitQueue.ANSWER_MESSAGE;
+import static ru.tgbot.service.RabbitQueue.ANSWER_MESSAGE;
 
 import lombok.AllArgsConstructor;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;

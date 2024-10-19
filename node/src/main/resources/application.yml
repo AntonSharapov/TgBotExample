@@ -7,3 +7,18 @@ spring:
     port: 5672
     username: anton
     password: 1029384756
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/pogreb
+    username: userok
+    password: p@ssw0rd
+  jpa:
+    generate-ddl: true
+
+token: 7155991615:AAEhlGMfHyrz-IXQ4cZygBIZYJVxkuyNO3g
+
+service:
+  file_info:
+    uri: https://api.telegram.org/tatamibot{token}/getFile?file_id={fileId}
+  file_storage:
+    uri: https://api.telegram.org/file/tatamibot{token}/{filePath}
