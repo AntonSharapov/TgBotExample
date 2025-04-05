@@ -29,7 +29,6 @@ public class ConsumerServiceImpl implements ConsumerService {
     public void consumeDocMessageUpdates(Update update) {
         log.debug("Node: Doc Message is recieved");
         mainService.processDocMessage(update);
-
     }
 
     @RabbitListener(queues = RabbitQueue.PHOTO_MESSAGE_UPDATE)

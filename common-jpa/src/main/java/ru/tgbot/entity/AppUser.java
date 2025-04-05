@@ -1,6 +1,7 @@
 package ru.tgbot.entity;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -10,21 +11,20 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.Hibernate;
 import org.hibernate.annotations.CreationTimestamp;
 import ru.tgbot.entity.enums.UserState;
 
 @Getter
 @Setter
-@EqualsAndHashCode(exclude = "id")
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
 @Table(name = "app_user")
+@Entity
 public class AppUser {
 
     @Id
@@ -41,5 +41,17 @@ public class AppUser {
     @Enumerated(EnumType.STRING)
     private UserState userState;
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+        AppUser appUser = (AppUser) o;
+        return telegramUserId != null && Objects.equals(telegramUserId, appUser.telegramUserId);
+    }
 
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
+    }
 }
+

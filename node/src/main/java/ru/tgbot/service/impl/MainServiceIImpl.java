@@ -7,10 +7,10 @@ import static ru.tgbot.service.enums.ServiceCommands.*;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
-import org.telegram.telegrambots.meta.api.objects.User;
-import ru.tgbot.dao.AppUserDao;
+import ru.tgbot.dao.AppUserDAO;
 import ru.tgbot.dao.RawDataDao;
 import ru.tgbot.entity.AppDocument;
 import ru.tgbot.entity.AppUser;
@@ -29,22 +29,25 @@ public class MainServiceIImpl implements MainService {
 
     private final RawDataDao rawDataDao;
     private final ProducerService producerService;
-    private final AppUserDao appUserDao;
+    private final AppUserDAO appUserDao;
     private final FileService fileService;
 
     @Override
     public void processTextMessage(Update update) {
         saveRawData(update);
-        var message = update.getMessage();
         var appUser = findOrSaveAppUser(update);
         var userState = appUser.getUserState();
         var text = update.getMessage().getText();
         var output = "";
+
         ServiceCommands serviceCommands = ServiceCommands.fromValue(text);
+
         if(CANCEL.equals(serviceCommands)) {
             output = cancellProcess(appUser);
+
         } else if (BASIC_STATE.equals(userState)) {
             output = processServiceCommand(appUser, text);
+
         } else if (WAIT_FOR_EMAIL_STATE.equals(userState)) {
             //TODO лдобавить обработку email
         } else {
@@ -57,15 +60,22 @@ public class MainServiceIImpl implements MainService {
 
     @Override
     public void processDocMessage(Update update) {
+        log.debug("Node: you are in method");
         saveRawData(update);
+        log.debug("Node: Doc data has been saved");
         AppUser appUser = findOrSaveAppUser(update);
+        log.debug("Node: App user has been added");
         Long chatId = update.getMessage().getChatId();
         if(isNotAllowedToSendContent(chatId, appUser)) {
-            return;
+            log.debug("ошибка при обработке документа");
+            String answer = "ошибка при отправке документа";
+            sendAnswer(answer, chatId);
         }
 
         try {
+
             AppDocument doc = fileService.processDoc(update.getMessage());
+
 
             //TODO Добавить генерацию ссылки для скачивания документа
             String answer = "Документ успешно загружен! " +
@@ -76,9 +86,6 @@ public class MainServiceIImpl implements MainService {
             String error = "К сожалению, загрузка файла не удалась. Повторите попытку позднее.";
             sendAnswer(error, chatId);
         }
-        //TODO добавить сохранение документа;
-        String answer = "Документ успешно загружен. Ссылка для скачивания: https://test.ru/get-doc/777";
-        sendAnswer(answer,chatId);
     }
 
     private boolean isNotAllowedToSendContent(Long chatId, AppUser appUser) {
@@ -121,12 +128,12 @@ public class MainServiceIImpl implements MainService {
 
     private String processServiceCommand(AppUser appUser, String cmd) {
         ServiceCommands serviceCommands = ServiceCommands.fromValue(cmd);
-        if (REGISTRATION.equals(cmd)) {
+        if (REGISTRATION.equals(serviceCommands)) {
             //TODO добавить регистрацию
             return "Временно недоступно";
-        } else if (HELP.equals(cmd)) {
+        } else if (HELP.equals(serviceCommands)) {
             return help();
-        } else if (START.equals(cmd)) {
+        } else if (START.equals(serviceCommands)) {
             return "Приветствую! Чтобы просмотреть список " +
                 "доступных команд введите /help";
         } else {
@@ -147,21 +154,25 @@ public class MainServiceIImpl implements MainService {
     }
 
     private AppUser findOrSaveAppUser(Update update){
-
+        log.debug("Node: You are trying to find or save user");
         var telegramUser = update.getMessage().getFrom();
-        AppUser persistentAppUser = appUserDao.findAppUserByTelegramUserId(telegramUser.getId());
-        if(persistentAppUser == null) {
+        log.debug("Node: link have benn resieved");
+
+        var persistentAppUser = appUserDao.findByTelegramUserId(telegramUser.getId().longValue());
+
+        log.debug("Node: finded by telegram Id: " + telegramUser.getId());
+        if(persistentAppUser.isEmpty()) {
             AppUser transientAppUser = AppUser.builder()
+                .telegramUserId(telegramUser.getId())
                 .userName(telegramUser.getUserName())
                 .firstName(telegramUser.getFirstName())
                 .lastName(telegramUser.getLastName())
-                //TODO изменить значение
                 .isActive(true)
                 .userState(BASIC_STATE)
                 .build();
             return appUserDao.save(transientAppUser);
         }
-        return persistentAppUser;
+        return persistentAppUser.get();
 
     }
 

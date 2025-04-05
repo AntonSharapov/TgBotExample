@@ -11,7 +11,9 @@ import ru.tgbot.service.UpdateProducer;
 @Log4j
 @AllArgsConstructor
 public class UpdateProducerImpl implements UpdateProducer {
+
     private final RabbitTemplate rabbitTemplate;
+
     @Override
     public void produce(String rabbitQueue, Update update) {
         log.debug(update.getMessage().getText());

@@ -5,8 +5,13 @@ spring:
   rabbitmq:
     host: localhost
     port: 5672
-    username: anton
-    password: 1029384756
+    username: userok
+    password: p@ssw0rd
+    queues:
+      text-message-update: TEXT_MESSAGE_UPDATE
+      doc-message-update: DOC_MESSAGE_UPDATE
+      photo-message-update: PHOTO_MESSAGE_UPDATE
+      answer-message: ANSWER_MESSAGE
 
   datasource:
     url: jdbc:postgresql://localhost:5432/pogreb

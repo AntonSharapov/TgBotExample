@@ -9,14 +9,17 @@ import javax.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
 @Table(name = "app_document")
+@Entity
 public class AppDocument {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

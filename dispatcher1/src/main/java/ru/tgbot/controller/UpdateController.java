@@ -1,5 +1,9 @@
 package ru.tgbot.controller;
 
+import static ru.tgbot.service.RabbitQueue.DOC_MESSAGE_UPDATE;
+import static ru.tgbot.service.RabbitQueue.PHOTO_MESSAGE_UPDATE;
+import static ru.tgbot.service.RabbitQueue.TEXT_MESSAGE_UPDATE;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -7,7 +11,6 @@ import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import ru.tgbot.service.UpdateProducer;
 import ru.tgbot.utils.MessageUtils;
-import ru.tgbot.service.RabbitQueue;
 
 @Controller
 @RequiredArgsConstructor
@@ -67,15 +70,15 @@ public class UpdateController {
     }
 
     private void processPhotoMessage(Update update) {
-        updateProducer.produce(RabbitQueue.PHOTO_MESSAGE_UPDATE, update);
+        updateProducer.produce(PHOTO_MESSAGE_UPDATE, update);
         setFileReceivedView(update);
     }
 
     private void processDocMessage(Update update) {
-        updateProducer.produce(RabbitQueue.DOC_MESSAGE_UPDATE, update);
+        updateProducer.produce(DOC_MESSAGE_UPDATE, update);
     }
 
     private void processTextMessage(Update update) {
-        updateProducer.produce(RabbitQueue.TEXT_MESSAGE_UPDATE, update);
+        updateProducer.produce(TEXT_MESSAGE_UPDATE, update);
     }
 }

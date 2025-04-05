@@ -1,29 +1,24 @@
 package ru.tgbot.service.enums;
 
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
-
 public enum ServiceCommands {
     HELP("/help"),
     REGISTRATION("/registration"),
     CANCEL("/cancel"),
     START("/start");
-    private final String cmd;
-    ServiceCommands(String cmd) {
-        this.cmd = cmd;
+    private final String value;
+
+    ServiceCommands(String value) {
+        this.value = value;
     }
 
     @Override
     public String toString() {
-        return cmd;
-    }
-    public boolean equals(String cmd) {
-        return this.toString().equals(cmd);
+        return value;
     }
 
     public  static ServiceCommands fromValue(String v) {
         for(ServiceCommands c: ServiceCommands.values()){
-            if(c.cmd.equals(v)) {
+            if(c.value.equals(v)) {
                 return c;
             }
         }

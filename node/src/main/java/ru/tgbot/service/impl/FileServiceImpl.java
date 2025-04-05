@@ -16,8 +16,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.telegram.telegrambots.meta.api.objects.Document;
 import org.telegram.telegrambots.meta.api.objects.Message;
-import ru.tgbot.dao.AppDocumentDao;
-import ru.tgbot.dao.BinaryContentDao;
+import ru.tgbot.dao.AppDocumentDAO;
+import ru.tgbot.dao.BinaryContentDAO;
 import ru.tgbot.entity.AppDocument;
 import ru.tgbot.entity.BinaryContent;
 import ru.tgbot.exceptions.UploadFileException;
@@ -35,32 +35,40 @@ public class FileServiceImpl implements FileService {
 
     @Value("${service.file_storage.uri}")
     private String fileStorageUri;
-    private final AppDocumentDao appDocumentDao;
-    private final BinaryContentDao binaryContentDao;
+    private final AppDocumentDAO appDocumentDao;
+    private final BinaryContentDAO binaryContentDao;
 
-    public FileServiceImpl(AppDocumentDao appDocumentDao, BinaryContentDao binaryContentDao){
+    public FileServiceImpl(AppDocumentDAO appDocumentDao, BinaryContentDAO binaryContentDao){
         this.appDocumentDao = appDocumentDao;
         this.binaryContentDao = binaryContentDao;
     }
     @Override
     public AppDocument processDoc(Message externalMessage) {
-        String fieldId = externalMessage.getDocument().getFileId();
-        ResponseEntity<String> response = getFilePath(fieldId);
+        String fileId;
+        fileId = externalMessage.getDocument().getFileId();
+        ResponseEntity<String> response = getFilePath(fileId);
         if (response.getStatusCode() == HttpStatus.OK) {
             JSONObject jsonObject = new JSONObject(response.getBody());
             String filePath = String.valueOf(jsonObject
                 .getJSONObject("result")
                 .getString("file_path"));
+            log.info("cоздан путь");
             byte[] fileInByte = downloadFile(filePath);
+            log.info("cкачан путь");
             BinaryContent transientBinaryContent = BinaryContent.builder()
-                .fileAsArrayOfBytes(fileInByte).build();
+                .fileAsArrayOfBytes(fileInByte)
+                .build();
             BinaryContent persistentBinaryContent = binaryContentDao.save(transientBinaryContent);
+            log.info("сохранен файл в бинарном виде");
             Document telegramDoc = externalMessage.getDocument();
+            log.info("получен сам документ");
             AppDocument transientAppDoc = buildTransintAppDoc(telegramDoc, persistentBinaryContent);
+            log.info("документ сохранен в Appdocument");
             return appDocumentDao.save(transientAppDoc);
-        } else
+        } else {
             throw new UploadFileException("Bad response from Telegram service: " +
                 response);
+        }
     }
 
     private AppDocument buildTransintAppDoc(Document telegramDoc, BinaryContent persistentBinaryContent) {
@@ -83,7 +91,7 @@ public class FileServiceImpl implements FileService {
             throw new UploadFileException(e);
         }
 
-        //TODO подумать над оптимизацией
+        //TODO подумать над оптимизацией скачивания больших файлов
         try(InputStream is = urlObj.openStream()) {
             return is.readAllBytes();
         } catch (IOException e) {
@@ -91,16 +99,24 @@ public class FileServiceImpl implements FileService {
         }
     }
 
-    private ResponseEntity<String> getFilePath(String fieldId) {
-        RestTemplate restTemplate = new RestTemplate();
-        HttpHeaders headers = new HttpHeaders();
-        HttpEntity<String> request = new HttpEntity<>(headers);
+    private ResponseEntity<String> getFilePath(String fileId) {
+        var restTemplate = new RestTemplate();
+        var headers = new HttpHeaders();
+        var request = new HttpEntity<>(headers);
+
         return restTemplate.exchange(
             fileInfoUri,
             HttpMethod.GET,
             request,
             String.class,
-            token,
-            fieldId);
+            token, fileId
+        );
+    }
+
+    private String getFilePath(ResponseEntity<String> response) {
+        var jsonObject = new JSONObject(response.getBody());
+        return String.valueOf(jsonObject
+            .getJSONObject("result")
+            .getString("file_path"));
     }
 }
